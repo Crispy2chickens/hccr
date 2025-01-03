@@ -23,8 +23,10 @@ def dense_block(x, blocks, name, attention_module=None):
     """
     for i in range(blocks):
         x = conv_block(x, 32, name=name + "_block" + str(i + 1))
-        if attention_module:
-            x = attach_attention_module(x, attention_module)
+
+    if attention_module:
+        x = attach_attention_module(x, attention_module)
+
     return x
 
 

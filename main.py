@@ -44,10 +44,10 @@ val_generator = test_datagen.flow_from_directory(
 #     classes=num_classes,
 #     attention_module='cbam_block'
 # )
-#
+
 # x = base_model.output
 # predictions = Dense(num_classes, activation='softmax')(x)
-#
+
 # model = Model(inputs=base_model.input, outputs=predictions)
 
 # End of DenseNet
@@ -87,19 +87,7 @@ history = model.fit(
     callbacks=[checkpoint]
 )
 
-train_loss = history.history['loss']
 val_loss = history.history['val_loss']
-epochs_range = range(1, len(train_loss) + 1)
-
-plt.plot(epochs_range, train_loss, label='Train Loss')
-plt.plot(epochs_range, val_loss, label='Val Loss')
-plt.title('Model Loss')
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.axvline(epochs_range[val_loss.index(min(val_loss))], color='r', linestyle='--', label='Optimal Epoch')
-plt.legend()
-plt.savefig('resnet_cbam.png')
-plt.show()
 
 optimal_epoch = val_loss.index(min(val_loss)) + 1
 
@@ -120,3 +108,16 @@ model.load_weights('resnet_cbam.keras')
 optimal_score = model.evaluate(test_generator, verbose=0)
 print(f'Test loss at optimal epoch ({optimal_epoch}):', optimal_score[0])
 print(f'Test accuracy at optimal epoch ({optimal_epoch}):', optimal_score[1])
+
+train_loss = history.history['loss']
+epochs_range = range(1, len(train_loss) + 1)
+
+plt.plot(epochs_range, train_loss, label='Train Loss')
+plt.plot(epochs_range, val_loss, label='Val Loss')
+plt.title('Model Loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.axvline(epochs_range[val_loss.index(min(val_loss))], color='r', linestyle='--', label='Optimal Epoch')
+plt.legend()
+plt.savefig('resnet_cbam.png')
+plt.show()

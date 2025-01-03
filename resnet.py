@@ -248,7 +248,7 @@ def stack_residual_blocks_v1(x, filters, blocks, stride1=2, name=None, attention
         x = residual_block_v1(
             x, filters, conv_shortcut=False, name=name + "_block" + str(i)
         )
-        if i == 3 and attention_module is not None:
+        if i % 3 == 0 and attention_module is not None:
             x = attach_attention_module(x, attention_module)
     return x
 
